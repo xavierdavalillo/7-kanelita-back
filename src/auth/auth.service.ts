@@ -31,7 +31,12 @@ export class AuthService {
     const payload: JwtPayload = {
       sub: user.id,
       email: user.email,
-      role: user.role,
+      role: {
+        id: user.role.id,
+        name: user.role.name,
+        slug: user.role.slug,
+      },
+      permissions: user.role.permissions.map(({ permission }) => permission.key),
     };
 
     return {
@@ -39,7 +44,8 @@ export class AuthService {
       user: {
         id: user.id,
         email: user.email,
-        role: user.role,
+        role: payload.role,
+        permissions: payload.permissions,
       },
     };
   }

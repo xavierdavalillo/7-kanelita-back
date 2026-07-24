@@ -10,6 +10,8 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
+import { RequirePermissions } from "../auth/permissions.decorator";
+import { PermissionsGuard } from "../auth/permissions.guard";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 import { ProductsService } from "./products.service";
@@ -23,20 +25,23 @@ export class ProductsController {
     return this.productsService.findPublic();
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
   @Get("admin/products")
+  @RequirePermissions("products:view")
   findAdmin() {
     return this.productsService.findAdmin();
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
   @Post("admin/products")
+  @RequirePermissions("products:create")
   create(@Body() createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
   @Patch("admin/products/:id")
+  @RequirePermissions("products:update")
   update(
     @Param("id", ParseIntPipe) id: number,
     @Body() updateProductDto: UpdateProductDto,
@@ -44,8 +49,9 @@ export class ProductsController {
     return this.productsService.update(id, updateProductDto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
   @Delete("admin/products/:id")
+  @RequirePermissions("products:delete")
   delete(@Param("id", ParseIntPipe) id: number) {
     return this.productsService.delete(id);
   }

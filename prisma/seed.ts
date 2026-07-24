@@ -151,11 +151,15 @@ async function main() {
 
   await prisma.user.upsert({
     where: { email: adminEmail.toLowerCase() },
-    update: { passwordHash, isActive: true },
+    update: {
+      passwordHash,
+      isActive: true,
+      role: { connect: { slug: "superusuario" } },
+    },
     create: {
       email: adminEmail.toLowerCase(),
       passwordHash,
-      role: "ADMIN",
+      role: { connect: { slug: "superusuario" } },
     },
   });
 

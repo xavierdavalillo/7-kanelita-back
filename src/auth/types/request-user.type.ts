@@ -1,7 +1,10 @@
-import { Role } from "@prisma/client";
-
 export type RequestUser = {
   id: number;
   email: string;
-  role: Role;
+  role: {
+    id: number;
+    name: string;
+    slug: string;
+  };
+  permissions: string[];
 };
