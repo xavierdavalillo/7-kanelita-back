@@ -1,4 +1,4 @@
-import {
+﻿import {
   CanActivate,
   ExecutionContext,
   ForbiddenException,
@@ -24,6 +24,11 @@ export class PermissionsGuard implements CanActivate {
     }
 
     const request = context.switchToHttp().getRequest<{ user?: RequestUser }>();
+
+    if (request.user?.role.slug === "superusuario") {
+      return true;
+    }
+
     const userPermissions = new Set(request.user?.permissions ?? []);
     const hasAllPermissions = requiredPermissions.every((permission) =>
       userPermissions.has(permission),
