@@ -1,5 +1,6 @@
 ﻿import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
+import { AbandonedCartsModule } from "./abandoned-carts/abandoned-carts.module";
 import { AuthModule } from "./auth/auth.module";
 import { CarouselImagesModule } from "./carousel-images/carousel-images.module";
 import { CategoriesModule } from "./categories/categories.module";
@@ -14,6 +15,7 @@ import { UsersModule } from "./users/users.module";
     PrismaModule,
     UsersModule,
     AuthModule,
+    AbandonedCartsModule,
     CategoriesModule,
     CarouselImagesModule,
     ProductsModule,

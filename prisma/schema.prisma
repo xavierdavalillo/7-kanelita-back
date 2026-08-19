@@ -113,3 +113,26 @@ model CarouselImage {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
+
+model AbandonedCart {
+  id               Int       @id @default(autoincrement())
+  cartToken        String    @unique
+  customerName     String
+  customerWhatsapp String
+  customerEmail    String?
+  deliveryType     String
+  consentToContact Boolean   @default(true)
+  status           String    @default("open")
+  items            Json
+  totalCents       Int
+  currency         String    @default("USD")
+  lastActivityAt   DateTime  @default(now())
+  contactedAt      DateTime?
+  orderSentAt      DateTime?
+  discardedAt      DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([status, lastActivityAt])
+  @@index([customerWhatsapp])
+}
